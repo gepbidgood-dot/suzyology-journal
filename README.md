@@ -1,0 +1,1 @@
+# suzyology-journal
