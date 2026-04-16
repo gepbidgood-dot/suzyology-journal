@@ -64,7 +64,7 @@ a { color: inherit; text-decoration: none; }
 
 .sz-tile {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 5%;
   width: 85%;
   margin: 0 6% 6vh 9%;
@@ -74,7 +74,7 @@ a { color: inherit; text-decoration: none; }
 .sz-tile-label {
   flex: 0 0 22%;
   font-weight: 700;
-  font-size: clamp(14px, 1.6vw, 22px);
+  font-size: clamp(12px, 1.1vw, 16px);
   letter-spacing: -0.01em;
   color: #aaa;
   line-height: 1.4;
