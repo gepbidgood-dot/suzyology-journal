@@ -9,12 +9,12 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
   <div class="sz-tiles">
     {posts.map((post, i) => (
       <a href={`/${post.id}`} class="sz-tile">
+        <span class="sz-tile-label">{post.data.title}</span>
         <img
           src={post.data.thumbnail}
           alt={post.data.title}
           loading={i === 0 ? 'eager' : 'lazy'}
         />
-        <span class="sz-tile-label">{post.data.title}</span>
       </a>
     ))}
   </div>
