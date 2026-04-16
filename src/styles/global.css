@@ -3,6 +3,7 @@
 :root {
   --sz-panel: clamp(160px, 18vw, 280px);
   --sz-panel-left: 24px;
+  --sz-content-offset: calc(var(--sz-panel-left) + var(--sz-panel) * 0.5);
   --pink: #d4006a;
 }
 
@@ -15,7 +16,7 @@ html, body {
 
 a { color: inherit; text-decoration: none; }
 
-/* Left panel — matches Shopify site exactly */
+/* Left panel */
 #sz-left-panel {
   position: fixed;
   top: 0;
@@ -26,10 +27,6 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   flex-direction: column;
   padding: 20px 20px 32px;
-}
-
-#sz-logo {
-  display: block;
 }
 
 #sz-logo img {
@@ -45,7 +42,6 @@ a { color: inherit; text-decoration: none; }
 }
 
 #sz-panel-nav a {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-weight: 700;
   font-size: clamp(16px, 2vw, 26px);
   letter-spacing: -0.01em;
@@ -59,14 +55,12 @@ a { color: inherit; text-decoration: none; }
 
 /* Main content */
 #sz-main {
-  padding-left: calc(var(--sz-panel-left) + var(--sz-panel) * 0.5);
+  padding-left: var(--sz-content-offset);
   min-height: 100vh;
 }
 
-/* Journal listing tiles — same as sz-blog.liquid */
-.sz-tiles {
-  padding-top: 13vh;
-}
+/* Journal listing */
+.sz-tiles { padding-top: 13vh; }
 
 .sz-tile {
   display: block;
@@ -76,23 +70,18 @@ a { color: inherit; text-decoration: none; }
   overflow: hidden;
   position: relative;
   cursor: pointer;
-  text-decoration: none;
 }
 
 .sz-tile img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
   transition: opacity 0.25s ease;
 }
-
 .sz-tile:hover img { opacity: 0.88; }
 
 .sz-tile-label {
   position: absolute;
-  bottom: 18px;
-  left: 20px;
+  bottom: 18px; left: 20px;
   color: #fff;
   font-size: clamp(13px, 1.4vw, 18px);
   letter-spacing: -0.01em;
@@ -104,10 +93,6 @@ a { color: inherit; text-decoration: none; }
 .sz-article {
   padding: 8vh 6% 8vh 9%;
   max-width: 860px;
-}
-
-.sz-article-header {
-  margin-bottom: 4vh;
 }
 
 .sz-article-title {
@@ -122,48 +107,43 @@ a { color: inherit; text-decoration: none; }
   color: #aaa;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  margin-bottom: 4vh;
 }
 
 .sz-article-body {
   font-size: clamp(14px, 1.2vw, 16px);
   line-height: 1.7;
 }
-
 .sz-article-body p { margin-bottom: 1.4em; }
+.sz-article-body img { width: 100%; display: block; margin-bottom: 2px; }
 
-.sz-article-body img {
-  width: 100%;
+/* Zine — images break out of main padding, full viewport width from panel edge */
+.sz-zine-header {
+  padding: 8vh 0 4vh 9%;
+}
+
+.sz-zine-header .sz-article-title,
+.sz-zine-header .sz-article-date {
   display: block;
-  margin-bottom: 2px;
 }
 
-/* Zine — full bleed stacked images */
-.sz-zine {
-  padding: 0;
+.sz-zine-pages {
+  /* negative margin-left to break out of #sz-main's padding */
+  margin-left: calc(-1 * var(--sz-content-offset));
+  width: 100vw;
 }
 
-.sz-zine .sz-article-header {
-  padding: 8vh 6% 4vh calc(9% + var(--sz-panel-left) + var(--sz-panel) * 0.5 - var(--sz-panel-left) - var(--sz-panel) * 0.5);
-  margin: 0;
-}
+.sz-zine-pages p { margin: 0; line-height: 0; }
 
 .sz-zine-pages img {
   width: 100%;
   display: block;
-  margin: 0;
-  padding: 0;
-}
-
-/* Veil */
-#sz-veil {
-  position: fixed;
-  inset: 0;
-  background: #fff;
-  z-index: 99999;
-  pointer-events: none;
+  margin: 0; padding: 0;
+  line-height: 0;
 }
 
 @media (max-width: 749px) {
   #sz-left-panel { display: none; }
   #sz-main { padding-left: 0; }
+  .sz-zine-pages { margin-left: 0; width: 100%; }
 }

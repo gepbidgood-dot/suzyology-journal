@@ -17,13 +17,23 @@ const dateStr = post.data.date.toLocaleDateString('en-AU', {
 const isZine = post.data.type === 'zine';
 ---
 <Base title={post.data.title} isArticle={true}>
-  <div class={isZine ? 'sz-zine' : 'sz-article'}>
-    <div class="sz-article-header">
+  {isZine ? (
+    <>
+      <div class="sz-zine-header">
+        <span class="sz-article-title">{post.data.title}</span>
+        <span class="sz-article-date">{dateStr}</span>
+      </div>
+      <div class="sz-zine-pages">
+        <Content />
+      </div>
+    </>
+  ) : (
+    <div class="sz-article">
       <h1 class="sz-article-title">{post.data.title}</h1>
       <p class="sz-article-date">{dateStr}</p>
+      <div class="sz-article-body">
+        <Content />
+      </div>
     </div>
-    <div class={isZine ? 'sz-zine-pages' : 'sz-article-body'}>
-      <Content />
-    </div>
-  </div>
+  )}
 </Base>

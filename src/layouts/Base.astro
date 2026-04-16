@@ -16,8 +16,6 @@ const { title, isArticle = false } = Astro.props;
 </head>
 <body>
 
-<div id="sz-veil" style="opacity:1"></div>
-
 <div id="sz-left-panel">
   <a id="sz-logo" href="https://suzyology.com">
     <img src="/logo.png" alt="Suzyology">
@@ -33,42 +31,41 @@ const { title, isArticle = false } = Astro.props;
 </main>
 
 <script>
-  function szFadeTo(el: HTMLElement, to: number, ms: number, cb?: (() => void) | null) {
+  function szFadeTo(el: HTMLElement, to: number, ms: number) {
     el.style.transition = `opacity ${ms}ms ease`;
     el.style.opacity = String(to);
-    if (cb) setTimeout(cb, ms);
   }
 
   function szFadeOut(cb: () => void) {
     const nav = document.getElementById('sz-panel-nav') as HTMLElement;
     const main = document.getElementById('sz-main') as HTMLElement;
-    if (nav) szFadeTo(nav, 0, 200, null);
-    if (main) szFadeTo(main, 0, 200, null);
-    setTimeout(cb, 210);
+    if (nav) szFadeTo(nav, 0, 200);
+    if (main) szFadeTo(main, 0, 200);
+    setTimeout(cb, 220);
   }
 
-  // Intercept internal links for fade transition
+  // Intercept internal links
   document.addEventListener('click', function(e) {
-    const t = e.target as HTMLElement;
-    const a = t.closest('a') as HTMLAnchorElement | null;
+    const a = (e.target as HTMLElement).closest('a') as HTMLAnchorElement | null;
     if (!a || !a.href) return;
-    try {
-      const url = new URL(a.href);
-      if (url.origin !== location.origin) return;
-    } catch { return; }
+    try { if (new URL(a.href).origin !== location.origin) return; } catch { return; }
     e.preventDefault();
     const href = a.href;
     szFadeOut(() => { window.location.href = href; });
   }, true);
 
-  // Fade in on arrival
+  // Fade in on arrival — use RAF to ensure paint before transition
   document.addEventListener('DOMContentLoaded', () => {
-    const veil = document.getElementById('sz-veil') as HTMLElement;
     const nav = document.getElementById('sz-panel-nav') as HTMLElement;
     const main = document.getElementById('sz-main') as HTMLElement;
-    if (nav) { nav.style.opacity = '0'; szFadeTo(nav, 1, 300, null); }
-    if (main) { main.style.opacity = '0'; szFadeTo(main, 1, 300, null); }
-    if (veil) szFadeTo(veil, 0, 200, null);
+    if (nav) nav.style.opacity = '0';
+    if (main) main.style.opacity = '0';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (nav) szFadeTo(nav, 1, 300);
+        if (main) szFadeTo(main, 1, 300);
+      });
+    });
   });
 </script>
 
