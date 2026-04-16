@@ -8,7 +8,7 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
 <Base title="Journal">
   <div class="sz-tiles">
     {posts.map((post, i) => (
-      <a href={`/${post.slug}`} class="sz-tile">
+      <a href={`/${post.id}`} class="sz-tile">
         <img
           src={post.data.thumbnail}
           alt={post.data.title}
