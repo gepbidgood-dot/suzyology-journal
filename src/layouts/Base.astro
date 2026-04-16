@@ -1,4 +1,6 @@
 ---
+import '../styles/global.css';
+
 interface Props {
   title: string;
   isArticle?: boolean;
@@ -11,7 +13,6 @@ const { title, isArticle = false } = Astro.props;
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title} — Suzyology Journal</title>
-  <link rel="stylesheet" href="/styles/global.css">
 </head>
 <body>
 
@@ -46,20 +47,17 @@ const { title, isArticle = false } = Astro.props;
     setTimeout(cb, 210);
   }
 
-  // Intercept all internal journal links for fade transition
   document.addEventListener('click', function(e) {
     const t = e.target as HTMLElement;
     const a = t.closest('a') as HTMLAnchorElement | null;
     if (!a || !a.href) return;
     const url = new URL(a.href);
-    // Only intercept same-origin links
     if (url.origin !== location.origin) return;
     e.preventDefault();
     const href = a.href;
     szFadeOut(() => { window.location.href = href; });
   }, true);
 
-  // Fade in on arrival
   window.addEventListener('DOMContentLoaded', () => {
     const veil = document.getElementById('sz-veil') as HTMLElement;
     const nav = document.getElementById('sz-panel-nav') as HTMLElement;
