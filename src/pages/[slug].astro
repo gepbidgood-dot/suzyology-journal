@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map(post => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const dateStr = post.data.date.toLocaleDateString('en-AU', {
+  day: 'numeric', month: 'long', year: 'numeric'
+});
+
+const isZine = post.data.type === 'zine';
+---
+<Base title={post.data.title} isArticle={true}>
+  <div class={isZine ? 'sz-zine' : 'sz-article'}>
+    <div class="sz-article-header">
+      <h1 class="sz-article-title">{post.data.title}</h1>
+      <p class="sz-article-date">{dateStr}</p>
+    </div>
+    <div class={isZine ? 'sz-zine-pages' : 'sz-article-body'}>
+      <Content />
+    </div>
+  </div>
+</Base>

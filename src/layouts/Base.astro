@@ -1,0 +1,74 @@
+---
+interface Props {
+  title: string;
+  isArticle?: boolean;
+}
+const { title, isArticle = false } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title} — Suzyology Journal</title>
+  <link rel="stylesheet" href="/styles/global.css">
+</head>
+<body>
+
+<div id="sz-veil"></div>
+
+<div id="sz-panel">
+  <a id="sz-logo" href="https://suzyology.com">
+    <img src="/logo.svg" alt="Suzyology">
+  </a>
+  <nav id="sz-panel-nav">
+    <a href="https://suzyology.com">Suzyology</a>
+    <a href="/" class={!isArticle ? 'active' : ''}>journal</a>
+  </nav>
+</div>
+
+<main id="sz-main">
+  <slot />
+</main>
+
+<script>
+  function szFadeTo(el: HTMLElement, to: number, ms: number, cb?: (() => void) | null) {
+    el.style.transition = `opacity ${ms}ms ease`;
+    el.style.opacity = String(to);
+    if (cb) setTimeout(cb, ms);
+  }
+
+  function szFadeOut(cb: () => void) {
+    const nav = document.getElementById('sz-panel-nav') as HTMLElement;
+    const main = document.getElementById('sz-main') as HTMLElement;
+    if (nav) szFadeTo(nav, 0, 200, null);
+    if (main) szFadeTo(main, 0, 200, null);
+    setTimeout(cb, 210);
+  }
+
+  // Intercept all internal journal links for fade transition
+  document.addEventListener('click', function(e) {
+    const t = e.target as HTMLElement;
+    const a = t.closest('a') as HTMLAnchorElement | null;
+    if (!a || !a.href) return;
+    const url = new URL(a.href);
+    // Only intercept same-origin links
+    if (url.origin !== location.origin) return;
+    e.preventDefault();
+    const href = a.href;
+    szFadeOut(() => { window.location.href = href; });
+  }, true);
+
+  // Fade in on arrival
+  window.addEventListener('DOMContentLoaded', () => {
+    const veil = document.getElementById('sz-veil') as HTMLElement;
+    const nav = document.getElementById('sz-panel-nav') as HTMLElement;
+    const main = document.getElementById('sz-main') as HTMLElement;
+    if (nav) { nav.style.opacity = '0'; szFadeTo(nav, 1, 300, null); }
+    if (main) { main.style.opacity = '0'; szFadeTo(main, 1, 300, null); }
+    if (veil) szFadeTo(veil, 0, 200, null);
+  });
+</script>
+
+</body>
+</html>

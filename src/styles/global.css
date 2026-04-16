@@ -1,0 +1,173 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --pink: #d4006a;
+  --grey: #aaa;
+  --dark: #222;
+  --panel: 160px;
+}
+
+html, body {
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  background: #fff;
+  color: var(--dark);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* Left panel */
+#sz-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--panel);
+  height: 100vh;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 0 28px 28px;
+}
+
+#sz-panel-logo {
+  display: block;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 20px;
+}
+
+#sz-panel-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+#sz-panel-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+#sz-panel-nav a {
+  font-size: 13px;
+  letter-spacing: -0.01em;
+  color: var(--grey);
+  line-height: 1.8;
+  transition: color 0.15s;
+}
+
+#sz-panel-nav a:hover { color: #555; }
+#sz-panel-nav a.active { color: var(--pink); }
+
+/* Main content offset */
+#sz-main {
+  margin-left: var(--panel);
+  min-height: 100vh;
+}
+
+/* Journal listing tiles */
+.sz-tiles {
+  padding-top: 13vh;
+}
+
+.sz-tile {
+  display: block;
+  width: 85%;
+  height: 80vh;
+  margin: 0 6% 8vh 9%;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+}
+
+.sz-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.25s ease;
+}
+
+.sz-tile:hover img { opacity: 0.88; }
+
+.sz-tile-label {
+  position: absolute;
+  bottom: 18px;
+  left: 20px;
+  color: #fff;
+  font-size: clamp(13px, 1.4vw, 18px);
+  letter-spacing: -0.01em;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.45);
+  pointer-events: none;
+}
+
+/* Article page */
+.sz-article {
+  padding: 8vh 6% 8vh 9%;
+  max-width: 900px;
+}
+
+.sz-article-header {
+  margin-bottom: 4vh;
+}
+
+.sz-article-title {
+  font-size: clamp(22px, 3vw, 36px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.sz-article-date {
+  font-size: 12px;
+  color: var(--grey);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.sz-article-body {
+  font-size: clamp(14px, 1.2vw, 16px);
+  line-height: 1.7;
+}
+
+.sz-article-body p { margin-bottom: 1.4em; }
+
+.sz-article-body img {
+  width: 100%;
+  display: block;
+  margin: 0 0 2px 0;
+}
+
+/* Zine layout */
+.sz-zine {
+  padding: 0;
+  max-width: 100%;
+}
+
+.sz-zine-pages {
+  padding-top: 4vh;
+  width: calc(100% + (9% - 6%) + 6%);
+  margin-left: -9%;
+}
+
+.sz-zine-pages img {
+  width: 100%;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+/* Veil */
+#sz-veil {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  z-index: 99999;
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* Transitions */
+#sz-main, #sz-panel-nav {
+  transition: opacity 0.2s ease;
+}
