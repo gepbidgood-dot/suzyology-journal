@@ -16,11 +16,11 @@ const { title, isArticle = false } = Astro.props;
 </head>
 <body>
 
-<div id="sz-veil"></div>
+<div id="sz-veil" style="opacity:1"></div>
 
-<div id="sz-panel">
+<div id="sz-left-panel">
   <a id="sz-logo" href="https://suzyology.com">
-    <img src="/logo.svg" alt="Suzyology">
+    <img src="/logo.png" alt="Suzyology">
   </a>
   <nav id="sz-panel-nav">
     <a href="https://suzyology.com">Suzyology</a>
@@ -47,18 +47,22 @@ const { title, isArticle = false } = Astro.props;
     setTimeout(cb, 210);
   }
 
+  // Intercept internal links for fade transition
   document.addEventListener('click', function(e) {
     const t = e.target as HTMLElement;
     const a = t.closest('a') as HTMLAnchorElement | null;
     if (!a || !a.href) return;
-    const url = new URL(a.href);
-    if (url.origin !== location.origin) return;
+    try {
+      const url = new URL(a.href);
+      if (url.origin !== location.origin) return;
+    } catch { return; }
     e.preventDefault();
     const href = a.href;
     szFadeOut(() => { window.location.href = href; });
   }, true);
 
-  window.addEventListener('DOMContentLoaded', () => {
+  // Fade in on arrival
+  document.addEventListener('DOMContentLoaded', () => {
     const veil = document.getElementById('sz-veil') as HTMLElement;
     const nav = document.getElementById('sz-panel-nav') as HTMLElement;
     const main = document.getElementById('sz-main') as HTMLElement;
