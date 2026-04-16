@@ -48,7 +48,6 @@ const { title, isArticle = false } = Astro.props;
   document.addEventListener('click', function(e) {
     const a = (e.target as HTMLElement).closest('a') as HTMLAnchorElement | null;
     if (!a || !a.href) return;
-    try { if (new URL(a.href).origin !== location.origin) return; } catch { return; }
     e.preventDefault();
     const href = a.href;
     szFadeOut(() => { window.location.href = href; });
