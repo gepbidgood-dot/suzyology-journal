@@ -149,7 +149,6 @@ a { color: inherit; text-decoration: none; }
 #sz-footer {
   position: relative;
   width: 100vw;
-  margin-left: calc(-1 * var(--sz-content-offset));
   overflow: hidden;
   line-height: 0;
 }
@@ -167,7 +166,7 @@ a { color: inherit; text-decoration: none; }
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 0 3% 22px;
+  padding: 0 3% 22px calc(var(--sz-panel-left) + var(--sz-panel) + 20px);
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -186,5 +185,5 @@ a { color: inherit; text-decoration: none; }
   #sz-left-panel { display: none; }
   #sz-main { padding-left: 0; }
   .sz-zine-pages { margin-left: 0; width: 100%; }
-  #sz-footer { margin-left: 0; }
+  #sz-footer-text { padding-left: 3%; }
 }
