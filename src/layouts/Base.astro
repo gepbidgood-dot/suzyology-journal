@@ -32,6 +32,20 @@ const { title, isArticle = false } = Astro.props;
   <slot />
 </main>
 
+<footer id="sz-footer">
+  <img src="/sz-footer-paper.jpeg" alt="">
+  <div id="sz-footer-text">
+    <div class="sz-footer-left">
+      <span>© Suzyology</span>
+      <span>Melbourne</span>
+    </div>
+    <div class="sz-footer-right">
+      <a href="mailto:orders@suzyology.com">orders@suzyology.com</a>
+      <a href="https://suzyology.com/pages/stockists">stockists</a>
+    </div>
+  </div>
+</footer>
+
 <script>
   function szFadeTo(el: HTMLElement, to: number, ms: number) {
     el.style.transition = `opacity ${ms}ms ease`;
